@@ -17,8 +17,7 @@ const (
 )
 
 var (
-	pink  color.RGBA = color.RGBA{255, 0, 255, 255}
-	white color.RGBA = color.RGBA{1, 1, 1, 255}
+	pink color.RGBA = color.RGBA{255, 0, 255, 255}
 
 	grid   [SCREENWIDTH][SCREENHEIGHT]uint8 = [SCREENWIDTH][SCREENHEIGHT]uint8{}
 	buffer [SCREENWIDTH][SCREENHEIGHT]uint8 = [SCREENWIDTH][SCREENHEIGHT]uint8{}
