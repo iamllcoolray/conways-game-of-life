@@ -1,10 +1,12 @@
 package game
 
 import (
+	"fmt"
 	"image/color"
 	"math/rand"
 
 	"github.com/hajimehoshi/ebiten/v2"
+	"github.com/hajimehoshi/ebiten/v2/ebitenutil"
 )
 
 type Game struct{}
@@ -22,21 +24,17 @@ var (
 	grid   [SCREENWIDTH][SCREENHEIGHT]uint8 = [SCREENWIDTH][SCREENHEIGHT]uint8{}
 	buffer [SCREENWIDTH][SCREENHEIGHT]uint8 = [SCREENWIDTH][SCREENHEIGHT]uint8{}
 
-	timer uint8 = 0
+	timer uint16 = 0
 )
 
-func GameSetup() {
+func NewGame() (*Game, error) {
 	for row := 0; row < SCREENWIDTH; row++ {
-		for col := 0; col < SCREENHEIGHT; col++ {
+		for col := 30; col < SCREENHEIGHT; col++ {
 			if rand.Float32() < 0.5 {
 				grid[row][col] = 1
 			}
 		}
 	}
-}
-
-func NewGame() (*Game, error) {
-	GameSetup()
 
 	game := &Game{}
 	var err error
@@ -48,9 +46,6 @@ func NewGame() (*Game, error) {
 
 func (g *Game) Update() error {
 	timer++
-	if timer == 20 {
-		timer = 0
-	}
 
 	for row := 1; row < SCREENWIDTH-1; row++ {
 		for col := 1; col < SCREENHEIGHT-1; col++ {
@@ -76,15 +71,15 @@ func (g *Game) Update() error {
 
 func (g *Game) Draw(screen *ebiten.Image) {
 	for row := 0; row < SCREENWIDTH; row++ {
-		for col := 0; col < SCREENHEIGHT; col++ {
+		for col := 30; col < SCREENHEIGHT; col++ {
 			if grid[row][col] > 0 {
 				screen.Set(row, col, pink)
 			}
 		}
 	}
 
-	// timerStr := fmt.Sprintf("Timer: %d", timer)
-	// text.Draw(screen, timerStr, )
+	timerStr := fmt.Sprintf("Timer: %d", timer)
+	ebitenutil.DebugPrint(screen, timerStr)
 }
 
 func (g *Game) Layout(outsideWidth, outsideHeight int) (screenWidth, screenHeight int) {
